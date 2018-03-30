@@ -142,7 +142,10 @@ func getListener(port int, unix string) (net.Listener, error) {
 		fmt.Printf("Listening on unix socket %v\n", unix)
 	} else {
 		if port == 0 {
-			port = defaultPort
+			port, err = strconv.Atoi(os.Getenv("PORT"))
+			if err != nil {
+				port = defaultPort
+			}
 		}
 		listener, err = net.Listen("tcp", ":"+strconv.Itoa(port))
 		fmt.Printf("Listening on port %v\n", port)
